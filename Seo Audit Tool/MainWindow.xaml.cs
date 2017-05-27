@@ -15,10 +15,8 @@ namespace Seo_Audit_Tool
 
         private void analyzeButton_Click(object sender, RoutedEventArgs e)
         {
-            Analyzer analyzer = new Analyzer("http://www.cs.ubbcluj.ro/", "de");
-            analyzer.HasKeywordInDescription();
-            analyzer.HasKeywordInTitle();
-            analyzer.HasKeywordInHeadings();
+            Analyzer analyzer = new Analyzer(urlTextBox.Text, keywordTextBox.Text);
+            analyzer.Analyze();
         }
     }
 }

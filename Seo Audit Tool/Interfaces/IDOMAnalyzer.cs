@@ -11,6 +11,7 @@ namespace Seo_Audit_Tool.Interfaces
         bool HasKeywordInTitle();
         bool HasKeywordInDescription();
         bool[] HasKeywordInHeadings();
+        void Analyze();
 
     }
 }

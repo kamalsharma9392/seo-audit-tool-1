@@ -7,8 +7,8 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        <Button x:Name="analyzeButton" Content="Analyze" Margin="394,96,0,0" HorizontalAlignment="Left" Width="78" Height="23" VerticalAlignment="Top" Click="analyzeButton_Click"/>
-        <TextBox x:Name="urlTextBox" Margin="37,69,0,0" TextWrapping="Wrap" Height="23" VerticalAlignment="Top" HorizontalAlignment="Left" Width="300" AutomationProperties.HelpText="http://www.your-site.com" Background="White"/>
+        <Button x:Name="analyzeButton" Content="Analyze" Margin="350,51,0,0" HorizontalAlignment="Left" Width="78" Height="23" VerticalAlignment="Top" Click="analyzeButton_Click"/>
+        <TextBox x:Name="urlTextBox" Margin="10,40,0,0" TextWrapping="Wrap" Height="23" VerticalAlignment="Top" HorizontalAlignment="Left" Width="300" AutomationProperties.HelpText="http://www.your-site.com" Background="White"/>
         <Menu Height="22" VerticalAlignment="Top" FontSize="14">
             <MenuItem Header="File">
                 <MenuItem Header="Open report"/>
@@ -24,6 +24,7 @@
                 <MenuItem Header="About"/>
             </MenuItem>
         </Menu>
+        <TextBox x:Name="keywordTextBox" HorizontalAlignment="Left" Height="23" Margin="10,68,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="300" AutomationProperties.HelpText="keyword"/>
 
     </Grid>
 </Window>

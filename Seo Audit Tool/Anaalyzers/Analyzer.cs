@@ -13,11 +13,25 @@ namespace Seo_Audit_Tool.Anaalyzers
         private string pageSource;
         private HtmlDocument document;
 
+        //TODO count broken links, make a list of broken links, count images without alt attribute, list images without alt attribute
+        // private List<String> brokenLinksList;
+        // private int brokenLinksCount;
+        // private List<string> imagesWithoutAlt;
+        // private int imagesWithoutAltCount;
+
+        private bool keywordInTitle;
+        private bool keywordInDescription;
+        private bool keywordInHeagings;
+
         public Analyzer(string url, string keyword)
         {
             this.pageUrl = url;
             this.document = new HtmlDocument();
             this.keyword = keyword;
+
+            this.keywordInTitle = false;
+            this.keywordInDescription = false;
+            this.keywordInHeagings = false;
 
             WebClient webClient = new WebClient();
             // TODO add webclient proxy option
@@ -71,6 +85,13 @@ namespace Seo_Audit_Tool.Anaalyzers
                 }
             }
             return keywordInHeadings;
+        }
+
+        public void Analyze()
+        {
+            this.keywordInTitle = HasKeywordInTitle();
+            this.keywordInDescription = HasKeywordInDescription();
+            this.keywordInHeagings = HasKeywordInHeadings().Contains(true);
         }
     }
 }
