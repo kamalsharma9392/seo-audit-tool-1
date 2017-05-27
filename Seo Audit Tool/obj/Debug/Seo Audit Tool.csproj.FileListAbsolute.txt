@@ -1,0 +1,17 @@
+c:\users\aurelian\documents\visual studio 2017\Projects\Seo Audit Tool\Seo Audit Tool\bin\Debug\Seo Audit Tool.exe.config
+c:\users\aurelian\documents\visual studio 2017\Projects\Seo Audit Tool\Seo Audit Tool\bin\Debug\Seo Audit Tool.exe
+c:\users\aurelian\documents\visual studio 2017\Projects\Seo Audit Tool\Seo Audit Tool\bin\Debug\Seo Audit Tool.pdb
+c:\users\aurelian\documents\visual studio 2017\Projects\Seo Audit Tool\Seo Audit Tool\obj\Debug\Seo Audit Tool.csprojResolveAssemblyReference.cache
+c:\users\aurelian\documents\visual studio 2017\Projects\Seo Audit Tool\Seo Audit Tool\obj\Debug\MainWindow.g.cs
+c:\users\aurelian\documents\visual studio 2017\Projects\Seo Audit Tool\Seo Audit Tool\obj\Debug\App.g.cs
+c:\users\aurelian\documents\visual studio 2017\Projects\Seo Audit Tool\Seo Audit Tool\obj\Debug\Seo Audit Tool_MarkupCompile.cache
+c:\users\aurelian\documents\visual studio 2017\Projects\Seo Audit Tool\Seo Audit Tool\obj\Debug\Seo Audit Tool_MarkupCompile.lref
+c:\users\aurelian\documents\visual studio 2017\Projects\Seo Audit Tool\Seo Audit Tool\obj\Debug\MainWindow.baml
+c:\users\aurelian\documents\visual studio 2017\Projects\Seo Audit Tool\Seo Audit Tool\obj\Debug\Seo Audit Tool.g.resources
+c:\users\aurelian\documents\visual studio 2017\Projects\Seo Audit Tool\Seo Audit Tool\obj\Debug\Seo_Audit_Tool.Properties.Resources.resources
+c:\users\aurelian\documents\visual studio 2017\Projects\Seo Audit Tool\Seo Audit Tool\obj\Debug\Seo Audit Tool.csproj.GenerateResource.Cache
+c:\users\aurelian\documents\visual studio 2017\Projects\Seo Audit Tool\Seo Audit Tool\obj\Debug\Seo Audit Tool.exe
+c:\users\aurelian\documents\visual studio 2017\Projects\Seo Audit Tool\Seo Audit Tool\obj\Debug\Seo Audit Tool.pdb
+C:\Users\Aurelian\documents\visual studio 2017\Projects\Seo Audit Tool\Seo Audit Tool\bin\Debug\HtmlAgilityPack.dll
+C:\Users\Aurelian\documents\visual studio 2017\Projects\Seo Audit Tool\Seo Audit Tool\bin\Debug\HtmlAgilityPack.pdb
+C:\Users\Aurelian\documents\visual studio 2017\Projects\Seo Audit Tool\Seo Audit Tool\bin\Debug\HtmlAgilityPack.xml

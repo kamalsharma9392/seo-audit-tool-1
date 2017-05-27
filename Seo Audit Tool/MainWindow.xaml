@@ -1,0 +1,29 @@
+﻿<Window x:Class="Seo_Audit_Tool.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Seo_Audit_Tool"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <Button x:Name="analyzeButton" Content="Analyze" Margin="394,96,0,0" HorizontalAlignment="Left" Width="78" Height="23" VerticalAlignment="Top" Click="analyzeButton_Click"/>
+        <TextBox x:Name="urlTextBox" Margin="37,69,0,0" TextWrapping="Wrap" Height="23" VerticalAlignment="Top" HorizontalAlignment="Left" Width="300" AutomationProperties.HelpText="http://www.your-site.com" Background="White"/>
+        <Menu Height="22" VerticalAlignment="Top" FontSize="14">
+            <MenuItem Header="File">
+                <MenuItem Header="Open report"/>
+                <MenuItem Header="Exit"/>
+            </MenuItem>
+            <MenuItem Header="Reports">
+                <MenuItem Header="Generate report"/>
+                <CheckBox Content="Generate reports for all pages"/>
+                <MenuItem Header="Checky item" IsCheckable="True"/>
+            </MenuItem>
+            <MenuItem Header="Help">
+                <MenuItem Header="Guide"/>
+                <MenuItem Header="About"/>
+            </MenuItem>
+        </Menu>
+
+    </Grid>
+</Window>
