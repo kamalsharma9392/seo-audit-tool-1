@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Seo_Audit_Tool.Interfaces
+﻿namespace Seo_Audit_Tool.Interfaces
 {
     interface IDomAnalyzer
     {
@@ -12,6 +6,5 @@ namespace Seo_Audit_Tool.Interfaces
         bool HasKeywordInDescription();
         bool[] HasKeywordInHeadings();
         void Analyze();
-
     }
 }

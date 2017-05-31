@@ -36,3 +36,5 @@ C:\Users\Aurelian\Source\Repos\set-audit-tool\Seo Audit Tool\obj\Debug\Seo_Audit
 C:\Users\Aurelian\Source\Repos\set-audit-tool\Seo Audit Tool\obj\Debug\Seo Audit Tool.csproj.GenerateResource.Cache
 C:\Users\Aurelian\Source\Repos\set-audit-tool\Seo Audit Tool\obj\Debug\Seo Audit Tool.exe
 C:\Users\Aurelian\Source\Repos\set-audit-tool\Seo Audit Tool\obj\Debug\Seo Audit Tool.pdb
+C:\Users\Aurelian\Source\Repos\set-audit-tool\Seo Audit Tool\obj\Debug\windows\OptionsWindow.g.cs
+C:\Users\Aurelian\Source\Repos\set-audit-tool\Seo Audit Tool\obj\Debug\windows\OptionsWindow.baml
