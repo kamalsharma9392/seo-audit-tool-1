@@ -63,6 +63,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Files\PdfGenerator.cs" />
     <Compile Include="Interfaces\IValidator.cs" />
     <Compile Include="Tests\AnalyzerTest.cs" />
     <Compile Include="Validators\UrlValidator.cs" />
