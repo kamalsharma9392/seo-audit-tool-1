@@ -4,7 +4,7 @@ using Seo_Audit_Tool.Interfaces;
 
 namespace Seo_Audit_Tool.Validators
 {
-    class UrlValidator : IValidator
+    public class UrlValidator : IValidator
     {
         public bool IsValid(string url)
         {
@@ -16,6 +16,7 @@ namespace Seo_Audit_Tool.Validators
             }
             catch (Exception exception)
             {
+                Console.WriteLine(exception.StackTrace);
                 return false;
             }
         }

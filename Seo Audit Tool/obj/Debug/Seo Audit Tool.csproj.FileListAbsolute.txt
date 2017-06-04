@@ -29,7 +29,6 @@ C:\Users\Aurelian\Source\Repos\set-audit-tool\Seo Audit Tool\obj\Debug\Seo Audit
 C:\Users\Aurelian\Source\Repos\set-audit-tool\Seo Audit Tool\obj\Debug\MainWindow.g.cs
 C:\Users\Aurelian\Source\Repos\set-audit-tool\Seo Audit Tool\obj\Debug\App.g.cs
 C:\Users\Aurelian\Source\Repos\set-audit-tool\Seo Audit Tool\obj\Debug\Seo Audit Tool_MarkupCompile.cache
-C:\Users\Aurelian\Source\Repos\set-audit-tool\Seo Audit Tool\obj\Debug\Seo Audit Tool_MarkupCompile.lref
 C:\Users\Aurelian\Source\Repos\set-audit-tool\Seo Audit Tool\obj\Debug\MainWindow.baml
 C:\Users\Aurelian\Source\Repos\set-audit-tool\Seo Audit Tool\obj\Debug\Seo Audit Tool.g.resources
 C:\Users\Aurelian\Source\Repos\set-audit-tool\Seo Audit Tool\obj\Debug\Seo_Audit_Tool.Properties.Resources.resources

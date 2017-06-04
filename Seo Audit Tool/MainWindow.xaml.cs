@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using System.Windows;
-using Seo_Audit_Tool.Anaalyzers;
+using Seo_Audit_Tool.Analyzers;
+using Seo_Audit_Tool.Files;
 using Seo_Audit_Tool.Validators;
 
 namespace Seo_Audit_Tool
@@ -8,7 +9,7 @@ namespace Seo_Audit_Tool
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         public MainWindow()
         {
@@ -17,7 +18,10 @@ namespace Seo_Audit_Tool
 
         private void analyzeButton_Click(object sender, RoutedEventArgs e)
         {
-          var urlValidator = new UrlValidator();
+            PdfGenerator generator = new PdfGenerator();
+            generator.GeneratePdfReport("Random site", "http://itextpdf.com/tags/net", new Analyzer("",""));
+
+            var urlValidator = new UrlValidator();
             if (urlValidator.IsValid(UrlTextBox.Text))
             {
                 // TODO refactor code below, remove duplicate code
@@ -29,22 +33,22 @@ namespace Seo_Audit_Tool
 
                 DataRow row = table.NewRow();
                 row["Test"] = "Keyword in title";
-                row["Result"] = analyzer.keywordInTitle ? "Found" : "Not found";
+                row["Result"] = analyzer.KeywordInTitle ? "Found" : "Not found";
                 table.Rows.Add(row);
 
                 row = table.NewRow();
                 row["Test"] = "Keyword in description";
-                row["Result"] = analyzer.keywordInDescription ? "Found" : "Not found";
+                row["Result"] = analyzer.KeywordInDescription ? "Found" : "Not found";
                 table.Rows.Add(row);
 
                 row = table.NewRow();
                 row["Test"] = "Keyword in headings";
-                row["Result"] = analyzer.keywordInHeadings ? "Found" : "Not found";
+                row["Result"] = analyzer.KeywordInHeadings ? "Found" : "Not found";
                 table.Rows.Add(row);
 
                 row = table.NewRow();
                 row["Test"] = "Keyword in URL";
-                row["Result"] = analyzer.keywordInUrl ? "Found" : "Not found";
+                row["Result"] = analyzer.KeywordInUrl ? "Found" : "Not found";
                 table.Rows.Add(row);
 
                 ReportDataGrid.ItemsSource = table.DefaultView;

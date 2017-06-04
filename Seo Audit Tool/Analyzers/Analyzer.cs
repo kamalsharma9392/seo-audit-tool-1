@@ -1,9 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Net;
 using HtmlAgilityPack;
 using Seo_Audit_Tool.Interfaces;
 
-namespace Seo_Audit_Tool.Anaalyzers
+namespace Seo_Audit_Tool.Analyzers
 {
     public class Analyzer : IDomAnalyzer
     {
@@ -19,10 +20,10 @@ namespace Seo_Audit_Tool.Anaalyzers
         // private List<string> imagesWithoutAlt;
         // private int imagesWithoutAltCount;
 
-        public bool keywordInTitle;
-        public bool keywordInDescription;
-        public bool keywordInHeadings;
-        public bool keywordInUrl;
+        public bool KeywordInTitle;
+        public bool KeywordInDescription;
+        public bool KeywordInHeadings;
+        public bool KeywordInUrl;
 
         public Analyzer(string url, string keyword)
         {
@@ -30,15 +31,22 @@ namespace Seo_Audit_Tool.Anaalyzers
             this.document = new HtmlDocument();
             this.keyword = keyword.ToLower();
 
-            this.keywordInTitle = false;
-            this.keywordInDescription = false;
-            this.keywordInHeadings = false;
-            this.keywordInUrl = false;
+            this.KeywordInTitle = false;
+            this.KeywordInDescription = false;
+            this.KeywordInHeadings = false;
+            this.KeywordInUrl = false;
 
-            WebClient webClient = new WebClient();
-            // TODO add webclient proxy option
-            pageSource = webClient.DownloadString(url);
-            document.LoadHtml(pageSource);
+            try
+            {
+                WebClient webClient = new WebClient();
+                // TODO add webclient proxy option
+                pageSource = webClient.DownloadString(url);
+                document.LoadHtml(pageSource);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.StackTrace);
+            }
         }
         public bool HasKeywordInTitle()
         {
@@ -96,9 +104,9 @@ namespace Seo_Audit_Tool.Anaalyzers
 
         public void Analyze()
         {
-            this.keywordInTitle = HasKeywordInTitle();
-            this.keywordInDescription = HasKeywordInDescription();
-            this.keywordInHeadings = HasKeywordInHeadings().Contains(true);
+            this.KeywordInTitle = HasKeywordInTitle();
+            this.KeywordInDescription = HasKeywordInDescription();
+            this.KeywordInHeadings = HasKeywordInHeadings().Contains(true);
         }
 
         // TODO implement ComputeScore() -> make a grading system (1-100) to calculate how optimized the page is

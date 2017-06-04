@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using Seo_Audit_Tool.Anaalyzers;
+using Seo_Audit_Tool.Analyzers;
 
 namespace Seo_Audit_Tool.Tests
 {
@@ -25,7 +25,7 @@ namespace Seo_Audit_Tool.Tests
         {
             Analyzer analyzer = new Analyzer("http://www.cs.ubbcluj.ro/", "de");
             analyzer.Analyze();
-            Assert.True(analyzer.keywordInHeadings);
+            Assert.True(analyzer.KeywordInHeadings);
         }
 
         [Test]
