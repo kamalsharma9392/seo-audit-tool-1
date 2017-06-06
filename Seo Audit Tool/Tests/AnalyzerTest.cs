@@ -4,7 +4,7 @@ using Seo_Audit_Tool.Analyzers;
 namespace Seo_Audit_Tool.Tests
 {
     [TestFixture]
-    class AnalyzerTest
+    public class AnalyzerTest
     {
         [Test]
         public void HasKeywordInTitleTest()
