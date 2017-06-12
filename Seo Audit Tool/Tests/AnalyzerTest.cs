@@ -9,21 +9,21 @@ namespace Seo_Audit_Tool.Tests
         [Test]
         public void HasKeywordInTitleTest()
         {
-            Analyzer analyzer = new Analyzer("http://www.cs.ubbcluj.ro/", "de");
+            var analyzer = new Analyzer("http://www.cs.ubbcluj.ro/", "de");
             Assert.IsTrue(analyzer.HasKeywordInTitle());
         }
 
         [Test]
         public void HasKeywordInDescriptionTest()
         {
-            Analyzer analyzer = new Analyzer("http://www.cs.ubbcluj.ro/", "de");
+            var analyzer = new Analyzer("http://www.cs.ubbcluj.ro/", "de");
             Assert.IsTrue(analyzer.HasKeywordInDescription());
         }
 
         [Test]
         public void HasKeywordInHeadingsTest()
         {
-            Analyzer analyzer = new Analyzer("http://www.cs.ubbcluj.ro/", "de");
+            var analyzer = new Analyzer("http://www.cs.ubbcluj.ro/", "de");
             analyzer.Analyze();
             Assert.True(analyzer.KeywordInHeadings);
         }
@@ -31,8 +31,29 @@ namespace Seo_Audit_Tool.Tests
         [Test]
         public void HasKeywordInUrlTest()
         {
-            Analyzer analyzer = new Analyzer("http://www.cs.ubbcluj.ro/", "de");
+            var analyzer = new Analyzer("http://www.cs.ubbcluj.ro/", "de");
             Assert.IsFalse(analyzer.HasKeywordInUrl());
+        }
+
+        [Test]
+        public void CountInternalLinksTest()
+        {
+            var analyzer = new Analyzer("https://potato.io/", "potato");
+            Assert.AreEqual(analyzer.CountInternalLinks(), 0);
+        }
+
+        [Test]
+        public void CountExternalLinksTest()
+        {
+            var analyzer = new Analyzer("https://potato.io/", "potato");
+            Assert.AreEqual(analyzer.CountExternalLinks(), 0);
+        }
+
+        [Test]
+        public void MeasureDomainLengthTest()
+        {
+            var analyzer = new Analyzer("https://potato.io/", "potato");
+            Assert.AreEqual(analyzer.MeasureDomainLength(), 6);
         }
     }
 }

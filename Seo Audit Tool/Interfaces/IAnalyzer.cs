@@ -1,6 +1,6 @@
 ﻿namespace Seo_Audit_Tool.Interfaces
 {
-    interface IDomAnalyzer
+    interface IAnalyzer
     {
         bool HasKeywordInTitle();
         bool HasKeywordInDescription();

@@ -6,7 +6,7 @@ using Seo_Audit_Tool.Interfaces;
 
 namespace Seo_Audit_Tool.Analyzers
 {
-    public class Analyzer : IDomAnalyzer
+    public class Analyzer : IAnalyzer
     {
         private string pageUrl;
         private string keyword;
@@ -19,6 +19,11 @@ namespace Seo_Audit_Tool.Analyzers
         // private int brokenLinksCount;
         // private List<string> imagesWithoutAlt;
         // private int imagesWithoutAltCount;
+        private int internalLinksCount;
+        private int externalLinksCount;
+        private int domainLength;
+        private int socialLinksCount;
+
 
         public bool KeywordInTitle;
         public bool KeywordInDescription;
@@ -50,51 +55,75 @@ namespace Seo_Audit_Tool.Analyzers
         }
         public bool HasKeywordInTitle()
         {
-            var titleNode = document.DocumentNode.SelectNodes("/html/head/title").First();
-            return titleNode.InnerText.ToLower().Contains(keyword);
+            try
+            {
+                var titleNode = document.DocumentNode.SelectNodes("/html/head/title").First();
+                return titleNode.InnerText.ToLower().Contains(keyword);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.StackTrace);
+                return false;
+            }
         }
 
         public bool HasKeywordInDescription()
         {
-            var metaDescriptionNode = document.DocumentNode.SelectSingleNode("/html/head/meta[@name=\"description\"]");
-            return metaDescriptionNode.GetAttributeValue("content", "").ToLower().Contains(keyword);
+            try
+            {
+                var metaDescriptionNode = document.DocumentNode.SelectSingleNode("/html/head/meta[@name=\"description\"]");
+                return metaDescriptionNode.GetAttributeValue("content", "").ToLower().Contains(keyword);
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.StackTrace);
+                return false;
+            }
         }
 
         public bool[] HasKeywordInHeadings()
         {
             bool[] keywordInHeadings = { false, false, false, false, false, false };
-            var heagingsXpath = "//*[self::h1 or self::h2 or self::h3 or self::h4 or self::h5 or self::h6]";
-            foreach (var heading in document.DocumentNode.SelectNodes(heagingsXpath))
+            try
             {
-                if (heading.InnerText.ToLower().Contains(keyword))
+                var headingsXPath = "//*[self::h1 or self::h2 or self::h3 or self::h4 or self::h5 or self::h6]";
+                foreach (var heading in document.DocumentNode.SelectNodes(headingsXPath))
                 {
-                    if (heading.Name.Equals("h1"))
+                    if (heading.InnerText.ToLower().Contains(keyword))
                     {
-                        keywordInHeadings[0] = true;
-                    }
-                    if (heading.Name.Equals("h2"))
-                    {
-                        keywordInHeadings[1] = true;
-                    }
-                    if (heading.Name.Equals("h3"))
-                    {
-                        keywordInHeadings[2] = true;
-                    }
-                    if (heading.Name.Equals("h4"))
-                    {
-                        keywordInHeadings[3] = true;
-                    }
-                    if (heading.Name.Equals("h5"))
-                    {
-                        keywordInHeadings[4] = true;
-                    }
-                    if (heading.Name.Equals("h6"))
-                    {
-                        keywordInHeadings[5] = true;
+                        if (heading.Name.Equals("h1"))
+                        {
+                            keywordInHeadings[0] = true;
+                        }
+                        if (heading.Name.Equals("h2"))
+                        {
+                            keywordInHeadings[1] = true;
+                        }
+                        if (heading.Name.Equals("h3"))
+                        {
+                            keywordInHeadings[2] = true;
+                        }
+                        if (heading.Name.Equals("h4"))
+                        {
+                            keywordInHeadings[3] = true;
+                        }
+                        if (heading.Name.Equals("h5"))
+                        {
+                            keywordInHeadings[4] = true;
+                        }
+                        if (heading.Name.Equals("h6"))
+                        {
+                            keywordInHeadings[5] = true;
+                        }
                     }
                 }
+                return keywordInHeadings;
             }
-            return keywordInHeadings;
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.StackTrace);
+                return keywordInHeadings;
+            }
         }
 
         public bool HasKeywordInUrl()
@@ -102,11 +131,61 @@ namespace Seo_Audit_Tool.Analyzers
             return pageUrl.ToLower().Contains(keyword);
         }
 
+        public int CountInternalLinks()
+        {
+            try
+            {
+                var allNodes = document.DocumentNode.SelectNodes("//a[@href]");
+                var internalLinkNodes = allNodes.Where(x => !x.GetAttributeValue("href", "").Contains("http"));
+                return internalLinkNodes.Count();
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.StackTrace);
+                return 0;
+            }
+        }
+
+        public int CountExternalLinks()
+        {
+            try
+            {
+                var allNodes = document.DocumentNode.SelectNodes("//a[@href]");
+                var externalLinkNodes = allNodes.Where(x => x.GetAttributeValue("href", "").Contains("http"));
+                return externalLinkNodes.Count();
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.StackTrace);
+                return 0;
+            }
+        }
+
+        public int MeasureDomainLength()
+        {
+            var domain = pageUrl.Substring(0, pageUrl.IndexOf("/", 8));
+            if (!domain.Contains("www."))
+            {
+                domain = domain.Substring(domain.IndexOf("//") + 2);
+                domain = domain.Substring(0, domain.LastIndexOf("."));
+            }
+            else
+            {
+                domain = domain.Substring(domain.IndexOf(".") + 1);
+                domain = domain.Substring(0, domain.LastIndexOf("."));
+            }
+            return domain.Length;
+        }
+
         public void Analyze()
         {
             this.KeywordInTitle = HasKeywordInTitle();
             this.KeywordInDescription = HasKeywordInDescription();
             this.KeywordInHeadings = HasKeywordInHeadings().Contains(true);
+
+            this.internalLinksCount = CountInternalLinks();
+            this.externalLinksCount = CountExternalLinks();
+            this.domainLength = MeasureDomainLength();
         }
 
         // TODO implement ComputeScore() -> make a grading system (1-100) to calculate how optimized the page is

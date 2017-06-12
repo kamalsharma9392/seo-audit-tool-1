@@ -16,7 +16,7 @@
             </MenuItem>
             <MenuItem Header="Reports">
                 <MenuItem Header="Generate report"/>
-                <MenuItem Header="Options"/>
+                <MenuItem Header="Options" Click="Options_Click"/>
             </MenuItem>
             <MenuItem Header="Help">
                 <MenuItem Header="Guide"/>

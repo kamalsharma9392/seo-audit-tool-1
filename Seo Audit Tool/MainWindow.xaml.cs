@@ -3,6 +3,7 @@ using System.Windows;
 using Seo_Audit_Tool.Analyzers;
 using Seo_Audit_Tool.Files;
 using Seo_Audit_Tool.Validators;
+using Seo_Audit_Tool.windows;
 
 namespace Seo_Audit_Tool
 {
@@ -53,6 +54,11 @@ namespace Seo_Audit_Tool
 
                 ReportDataGrid.ItemsSource = table.DefaultView;
             }
+        }
+        private void Options_Click(object sender, RoutedEventArgs e)
+        {
+            OptionsWindow optionsWindow = new OptionsWindow();
+            optionsWindow.Show();
         }
     }
 }

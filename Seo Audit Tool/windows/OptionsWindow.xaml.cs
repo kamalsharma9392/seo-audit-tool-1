@@ -1,4 +1,7 @@
-﻿namespace Seo_Audit_Tool.windows
+﻿using System;
+using System.Configuration;
+
+namespace Seo_Audit_Tool.windows
 {
     /// <summary>
     /// Interaction logic for OptionsWindow.xaml
@@ -9,5 +12,15 @@
         {
             InitializeComponent();
         }
+
+        public void LoadSettings()
+        {
+            var reportsPath = ConfigurationManager.AppSettings["reportsFolder"].Equals("Desktop")
+                ? Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
+                : ConfigurationManager.AppSettings["reportsFolder"];
+
+        }
+
+
     }
 }
