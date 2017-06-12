@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using System.Windows;
 using Seo_Audit_Tool.Analyzers;
 using Seo_Audit_Tool.Files;
@@ -59,6 +60,23 @@ namespace Seo_Audit_Tool
         {
             OptionsWindow optionsWindow = new OptionsWindow();
             optionsWindow.Show();
+        }
+
+        private void MenuGuide_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("1. Fill in the url" + Environment.NewLine + 
+                            "2. Fill in the keyword" + Environment.NewLine + 
+                            "3. Click the Analyze button", "Guide", MessageBoxButton.OK, MessageBoxImage.Asterisk);
+        }
+
+        private void MenuAbout_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("This application is meant to help users learn about basic on-page Search Engine Optimization", "Guide", MessageBoxButton.OK, MessageBoxImage.Asterisk);
+        }
+
+        private void MenuExit_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
         }
     }
 }
