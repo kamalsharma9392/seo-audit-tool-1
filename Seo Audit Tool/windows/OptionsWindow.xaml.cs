@@ -11,16 +11,45 @@ namespace Seo_Audit_Tool.windows
         public OptionsWindow()
         {
             InitializeComponent();
+            LoadSettings();
         }
 
         public void LoadSettings()
         {
-            var reportsPath = ConfigurationManager.AppSettings["reportsFolder"].Equals("Desktop")
-                ? Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
-                : ConfigurationManager.AppSettings["reportsFolder"];
-
+            try
+            {
+                var reportsFolder = ConfigurationManager.AppSettings["reportsFolder"].Equals("Desktop")
+                        ? Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
+                        : ConfigurationManager.AppSettings["reportsFolder"];
+                var alwaysGeneratePDFReports = ConfigurationManager.AppSettings["alwaysGeneratePDFReports"];
+                AlwaysGeneratePdfCheckBox.IsChecked = alwaysGeneratePDFReports.Equals("true");
+                ReportsFolderTextBox.Text = reportsFolder;
+            }
+            catch (ConfigurationErrorsException exception)
+            {
+                Console.WriteLine(exception.StackTrace);
+            }
         }
 
+        public void SaveUserSettings()
+        {
+            try
+            {
+                var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                config.AppSettings.Settings["alwaysGeneratePDFReports"].Value = (AlwaysGeneratePdfCheckBox.IsChecked.GetValueOrDefault(false) == false) ? "false" : "true";
+                config.AppSettings.Settings["reportsFolder"].Value = ReportsFolderTextBox.Text;
+                config.Save(ConfigurationSaveMode.Modified);
+                ConfigurationManager.RefreshSection("appSettings");
+            }
+            catch (ConfigurationErrorsException exception)
+            {
+                Console.WriteLine(exception.StackTrace);
+            }
+        }
 
+        private void SaveSettings(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            SaveUserSettings();
+        }
     }
 }
