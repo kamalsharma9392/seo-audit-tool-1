@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using iTextSharp.text.pdf.draw;
@@ -14,7 +15,8 @@ namespace Seo_Audit_Tool.Files
             try
             {
                 var date = DateTime.Now.ToString("dd-MM-yyyy hh-mm");
-                var fs = new FileStream($"{pageTitle} - {date}.pdf", FileMode.Create);
+                var filename = CleanFileName($"{pageTitle} - {date}.pdf");
+                var fs = new FileStream(filename, FileMode.Create);
                 var document = new Document(PageSize.A4, 25, 25, 30, 30);
                 var writer = PdfWriter.GetInstance(document, fs);
 
@@ -56,6 +58,11 @@ namespace Seo_Audit_Tool.Files
             {
                 Console.WriteLine(exception.StackTrace);
             }
+        }
+
+        private static string CleanFileName(string fileName)
+        {
+            return Path.GetInvalidFileNameChars().Aggregate(fileName, (current, c) => current.Replace(c.ToString(), string.Empty));
         }
     }
 }

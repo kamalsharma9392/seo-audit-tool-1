@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using HtmlAgilityPack;
@@ -8,13 +9,14 @@ namespace Seo_Audit_Tool.Analyzers
 {
     public class Analyzer : IAnalyzer
     {
+        private string pageTitle;
         private string pageUrl;
         private string keyword;
         private string pageSource;
         private HtmlDocument document;
 
         // TODO check for favicon (not very important but nice to have for branding)
-        //TODO count broken links, make a list of broken links, count images without alt attribute, list images without alt attribute
+        // TODO count broken links, make a list of broken links, count images without alt attribute, list images without alt attribute
         // private List<String> brokenLinksList;
         // private int brokenLinksCount;
         // private List<string> imagesWithoutAlt;
@@ -33,6 +35,7 @@ namespace Seo_Audit_Tool.Analyzers
         public Analyzer(string url, string keyword)
         {
             this.pageUrl = url;
+            this.pageTitle = "";
             this.document = new HtmlDocument();
             this.keyword = keyword.ToLower();
 
@@ -57,8 +60,8 @@ namespace Seo_Audit_Tool.Analyzers
         {
             try
             {
-                var titleNode = document.DocumentNode.SelectNodes("/html/head/title").First();
-                return titleNode.InnerText.ToLower().Contains(keyword);
+                this.pageTitle = document.DocumentNode.SelectNodes("/html/head/title").First().InnerText;
+                return pageTitle.ToLower().Contains(keyword.ToLower());
             }
             catch (Exception exception)
             {
@@ -72,7 +75,7 @@ namespace Seo_Audit_Tool.Analyzers
             try
             {
                 var metaDescriptionNode = document.DocumentNode.SelectSingleNode("/html/head/meta[@name=\"description\"]");
-                return metaDescriptionNode.GetAttributeValue("content", "").ToLower().Contains(keyword);
+                return metaDescriptionNode.GetAttributeValue("content", "").ToLower().Contains(keyword.ToLower());
             }
             catch (Exception exception)
             {
@@ -89,7 +92,7 @@ namespace Seo_Audit_Tool.Analyzers
                 var headingsXPath = "//*[self::h1 or self::h2 or self::h3 or self::h4 or self::h5 or self::h6]";
                 foreach (var heading in document.DocumentNode.SelectNodes(headingsXPath))
                 {
-                    if (heading.InnerText.ToLower().Contains(keyword))
+                    if (heading.InnerText.ToLower().Contains(keyword.ToLower()))
                     {
                         if (heading.Name.Equals("h1"))
                         {
@@ -128,7 +131,7 @@ namespace Seo_Audit_Tool.Analyzers
 
         public bool HasKeywordInUrl()
         {
-            return pageUrl.ToLower().Contains(keyword);
+            return pageUrl.ToLower().Contains(keyword.ToLower());
         }
 
         public int CountInternalLinks()
@@ -182,6 +185,7 @@ namespace Seo_Audit_Tool.Analyzers
             this.KeywordInTitle = HasKeywordInTitle();
             this.KeywordInDescription = HasKeywordInDescription();
             this.KeywordInHeadings = HasKeywordInHeadings().Contains(true);
+            this.KeywordInUrl = HasKeywordInUrl();
 
             this.internalLinksCount = CountInternalLinks();
             this.externalLinksCount = CountExternalLinks();
@@ -189,5 +193,28 @@ namespace Seo_Audit_Tool.Analyzers
         }
 
         // TODO implement ComputeScore() -> make a grading system (1-100) to calculate how optimized the page is
+
+        private sealed class PageTitleRelationalComparer : Comparer<Analyzer>
+        {
+            public override int Compare(Analyzer x, Analyzer y)
+            {
+                if (ReferenceEquals(x, y)) return 0;
+                if (ReferenceEquals(null, y)) return 1;
+                if (ReferenceEquals(null, x)) return -1;
+                return string.Compare(x.pageTitle, y.pageTitle, StringComparison.Ordinal);
+            }
+        }
+
+        public string GetPageTitle()
+        {
+            return this.pageTitle;
+        }
+
+        public string GetPageUrl()
+        {
+            return this.pageUrl;
+        }
+        
     }
+
 }

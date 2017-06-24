@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.Windows.Forms;
 
 namespace Seo_Audit_Tool.windows
 {
@@ -50,6 +51,15 @@ namespace Seo_Audit_Tool.windows
         private void SaveSettings(object sender, System.ComponentModel.CancelEventArgs e)
         {
             SaveUserSettings();
+        }
+
+        private void changeReportsFolderButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            using (var folderDialog = new FolderBrowserDialog())
+            {
+                folderDialog.ShowDialog();
+                ReportsFolderTextBox.Text = folderDialog.SelectedPath.Equals("") ? ConfigurationManager.AppSettings["reportsFolder"] : folderDialog.SelectedPath;
+            }
         }
     }
 }

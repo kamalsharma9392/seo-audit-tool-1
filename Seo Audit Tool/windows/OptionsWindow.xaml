@@ -9,8 +9,8 @@
         <Label x:Name="ReportsFolderLabel" Content="Reports folder" HorizontalAlignment="Left" Margin="10,39,0,0" VerticalAlignment="Top" Width="169"/>
         <CheckBox x:Name="AlwaysGeneratePdfCheckBox" Content="Always generate pdf reports" HorizontalAlignment="Left" Margin="10,16,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="ReportsFolderTextBox" HorizontalAlignment="Left" Height="20
-                 " Margin="184,42,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="225"/>
-        <Button Content="Change" HorizontalAlignment="Left" Margin="414,42,0,0" VerticalAlignment="Top" Width="75"/>
+                 " Margin="184,42,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="225" AutomationProperties.HelpText="folder"/>
+        <Button x:Name="changeReportsFolderButton" Content="Change" HorizontalAlignment="Left" Margin="414,42,0,0" VerticalAlignment="Top" Width="75" Click="changeReportsFolderButton_Click"/>
         <Separator HorizontalAlignment="Left" Height="13" Margin="10,28,0,0" VerticalAlignment="Top" Width="479" RenderTransformOrigin="0.5,0.5"/>
         <Separator HorizontalAlignment="Left" Height="13" Margin="10,63,0,0" VerticalAlignment="Top" Width="479" RenderTransformOrigin="0.5,0.5"/>
     </Grid>
