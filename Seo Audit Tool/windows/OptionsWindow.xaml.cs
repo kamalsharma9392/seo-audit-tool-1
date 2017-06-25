@@ -57,6 +57,7 @@ namespace Seo_Audit_Tool.windows
         {
             using (var folderDialog = new FolderBrowserDialog())
             {
+                folderDialog.Description = "Choose the folder where to save reports";
                 folderDialog.ShowDialog();
                 ReportsFolderTextBox.Text = folderDialog.SelectedPath.Equals("") ? ConfigurationManager.AppSettings["reportsFolder"] : folderDialog.SelectedPath;
             }

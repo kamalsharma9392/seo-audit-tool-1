@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using System.Data;
 using System.Windows.Controls;
 using Seo_Audit_Tool.Analyzers;
@@ -16,9 +17,14 @@ namespace Seo_Audit_Tool.Reports
 
             if (ConfigurationManager.AppSettings["alwaysGeneratePDFReports"].Equals("true"))
             {
-                PdfGenerator generator = new PdfGenerator(); // pdf report
-                generator.GeneratePdfReport(analyzer.GetPageTitle(), analyzer.GetPageUrl(), analyzer); 
+                PdfGenerator.GeneratePdfReport(analyzer.GetPageTitle(), analyzer.GetPageUrl(), analyzer);  // pdf report
+
+                var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                config.AppSettings.Settings["lastGeneratedReport"].Value = PdfGenerator.CleanFileName($"{analyzer.GetPageTitle()} - {DateTime.Now:dd-MM-yyyy hh-mm}.pdf");
+                config.Save(ConfigurationSaveMode.Modified);
+                ConfigurationManager.RefreshSection("appSettings");
             }
+
         }
 
         public static DataTable CreateReportTable(Analyzer analyzer)

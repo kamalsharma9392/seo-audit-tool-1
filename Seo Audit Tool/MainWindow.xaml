@@ -8,10 +8,11 @@
         Title="MainWindow" Height="350" Width="525">
     <Grid>
         <Button x:Name="AnalyzeButton" Content="Analyze" Margin="350,51,0,0" HorizontalAlignment="Left" Width="78" Height="23" VerticalAlignment="Top" Click="analyzeButton_Click"/>
-        <TextBox x:Name="UrlTextBox" Margin="10,40,0,0" TextWrapping="Wrap" Height="23" VerticalAlignment="Top" HorizontalAlignment="Left" Width="300" AutomationProperties.HelpText="http://www.your-site.com" MaxLines="1" Background="White"/>
+        <TextBox x:Name="UrlTextBox" Margin="10,40,0,0" TextWrapping="NoWrap" Height="23" VerticalAlignment="Top" HorizontalAlignment="Left" Width="300" AutomationProperties.HelpText="http://www.your-site.com" MaxLines="1" Background="White"/>
+        <TextBox x:Name="KeywordTextBox" HorizontalAlignment="Left" Height="23" Margin="10,68,0,0" TextWrapping="NoWrap" VerticalAlignment="Top" Width="300" AutomationProperties.HelpText="keyword"/>
         <Menu Height="22" VerticalAlignment="Top" FontSize="14">
             <MenuItem x:Name="MenuFile" Header="File">
-                <MenuItem x:Name="MenuOpenReport" Header="Open report"/>
+                <MenuItem x:Name="MenuOpenReport" Header="Open report" Click="MenuOpenReport_Click"/>
                 <MenuItem x:Name="MenuExit" Header="Exit" Click="MenuExit_Click" />
             </MenuItem>
             <MenuItem x:Name="MenuReports" Header="Reports">
@@ -23,8 +24,6 @@
                 <MenuItem x:Name="MenuAbout" Header="About" Click="MenuAbout_Click"/>
             </MenuItem>
         </Menu>
-        <TextBox x:Name="KeywordTextBox" HorizontalAlignment="Left" Height="23" Margin="10,68,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="300" AutomationProperties.HelpText="keyword"/>
         <DataGrid x:Name="ReportDataGrid" CanUserAddRows="True" AlternatingRowBackground="Gray" AlternationCount="2" Margin="10,96,10,10" />
-
     </Grid>
 </Window>

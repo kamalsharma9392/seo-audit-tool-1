@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using iTextSharp.text;
@@ -8,15 +9,16 @@ using Seo_Audit_Tool.Analyzers;
 
 namespace Seo_Audit_Tool.Files
 {
-    public class PdfGenerator
+    public static class PdfGenerator
     {
-        public void GeneratePdfReport(string pageTitle, string pageUrl, Analyzer analyzer)
+        public static void GeneratePdfReport(string pageTitle, string pageUrl, Analyzer analyzer)
         {
             try
             {
                 var date = DateTime.Now.ToString("dd-MM-yyyy hh-mm");
-                var filename = CleanFileName($"{pageTitle} - {date}.pdf");
-                var fs = new FileStream(filename, FileMode.Create);
+                var filepath = ConfigurationManager.AppSettings["reportsFolder"];
+                var fileName = CleanFileName($"{pageTitle} - {date}.pdf");
+                var fs = new FileStream( filepath + "\\" + fileName, FileMode.Create);
                 var document = new Document(PageSize.A4, 25, 25, 30, 30);
                 var writer = PdfWriter.GetInstance(document, fs);
 
@@ -34,6 +36,9 @@ namespace Seo_Audit_Tool.Files
                 firstParagraph.SpacingAfter = 10;
                 LineSeparator separator = new LineSeparator();
 
+                var pageParagraph = new Paragraph($"Page: {analyzer.GetPageUrl()}");
+                var keywordParagraph = new Paragraph($"Keyword: {analyzer.GetKeyword()}");
+
                 PdfPTable table = new PdfPTable(2);
                 table.SpacingBefore = 20;
 
@@ -48,6 +53,8 @@ namespace Seo_Audit_Tool.Files
 
                 document.Add(firstParagraph);
                 document.Add(separator);
+                document.Add(pageParagraph);
+                document.Add(keywordParagraph);
                 document.Add(table);
 
                 document.Close();
@@ -60,7 +67,7 @@ namespace Seo_Audit_Tool.Files
             }
         }
 
-        private static string CleanFileName(string fileName)
+        public static string CleanFileName(string fileName)
         {
             return Path.GetInvalidFileNameChars().Aggregate(fileName, (current, c) => current.Replace(c.ToString(), string.Empty));
         }

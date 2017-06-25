@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Data;
 using System.Windows;
 using Seo_Audit_Tool.Analyzers;
@@ -51,6 +52,20 @@ namespace Seo_Audit_Tool
         private void MenuExit_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
+        }
+
+        private void MenuOpenReport_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var reportsFolder = ConfigurationManager.AppSettings["reportsFolder"];
+                var lastReport = ConfigurationManager.AppSettings["lastGeneratedReport"];
+                System.Diagnostics.Process.Start(reportsFolder + "\\" + lastReport);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(this, exception.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }

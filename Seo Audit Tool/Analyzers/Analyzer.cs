@@ -48,8 +48,9 @@ namespace Seo_Audit_Tool.Analyzers
             {
                 WebClient webClient = new WebClient();
                 // TODO add webclient proxy option
-                pageSource = webClient.DownloadString(url);
+                pageSource = webClient.DownloadString(new Uri(url));
                 document.LoadHtml(pageSource);
+                webClient.Dispose();
             }
             catch (Exception exception)
             {
@@ -213,6 +214,11 @@ namespace Seo_Audit_Tool.Analyzers
         public string GetPageUrl()
         {
             return this.pageUrl;
+        }
+
+        public string GetKeyword()
+        {
+            return this.keyword;
         }
         
     }
