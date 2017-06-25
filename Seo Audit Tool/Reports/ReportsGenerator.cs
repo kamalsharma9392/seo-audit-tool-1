@@ -18,13 +18,15 @@ namespace Seo_Audit_Tool.Reports
             if (ConfigurationManager.AppSettings["alwaysGeneratePDFReports"].Equals("true"))
             {
                 PdfGenerator.GeneratePdfReport(analyzer.GetPageTitle(), analyzer.GetPageUrl(), analyzer);  // pdf report
-
-                var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-                config.AppSettings.Settings["lastGeneratedReport"].Value = PdfGenerator.CleanFileName($"{analyzer.GetPageTitle()} - {DateTime.Now:dd-MM-yyyy hh-mm}.pdf");
-                config.Save(ConfigurationSaveMode.Modified);
-                ConfigurationManager.RefreshSection("appSettings");
+                UpdateLastReportPath(analyzer);
             }
 
+        }
+
+        public static void GenerateReport(Analyzer analyzer)
+        {
+            PdfGenerator.GeneratePdfReport(analyzer.GetPageTitle(), analyzer.GetPageUrl(), analyzer);  // pdf report
+            UpdateLastReportPath(analyzer);
         }
 
         public static DataTable CreateReportTable(Analyzer analyzer)
@@ -54,6 +56,22 @@ namespace Seo_Audit_Tool.Reports
             table.Rows.Add(row);
 
             return table;
+        }
+
+        public static void UpdateLastReportPath(Analyzer analyzer)
+        {
+            try
+            {
+                var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                config.AppSettings.Settings["lastGeneratedReport"].Value =
+                    PdfGenerator.CleanFileName($"{analyzer.GetPageTitle()} - {DateTime.Now:dd-MM-yyyy hh-mm}.pdf");
+                config.Save(ConfigurationSaveMode.Modified);
+                ConfigurationManager.RefreshSection("appSettings");
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine("Error updating last report path!" + Environment.NewLine + exception.Message);
+            }
         }
     }
 }

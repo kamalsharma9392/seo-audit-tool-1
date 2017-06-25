@@ -16,7 +16,7 @@
                 <MenuItem x:Name="MenuExit" Header="Exit" Click="MenuExit_Click" />
             </MenuItem>
             <MenuItem x:Name="MenuReports" Header="Reports">
-                <MenuItem x:Name="MenuGenerateReport" Header="Generate report"/>
+                <MenuItem x:Name="MenuGenerateReport" Header="Generate report" Click="MenuGenerateReport_Click"/>
                 <MenuItem x:Name="MenuOptions" Header="Options" Click="Options_Click"/>
             </MenuItem>
             <MenuItem x:Name="menuHelp" Header="Help">

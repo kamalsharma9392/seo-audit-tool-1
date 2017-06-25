@@ -22,12 +22,18 @@ namespace Seo_Audit_Tool
 
         private void analyzeButton_Click(object sender, RoutedEventArgs e)
         {
+            // TODO  make a function using the code below
             var urlValidator = new UrlValidator();
             if (urlValidator.IsValid(UrlTextBox.Text))
             {
                 var analyzer = new Analyzer(UrlTextBox.Text, KeywordTextBox.Text);
                 analyzer.Analyze();
                 ReportsGenerator.GenerateReport(analyzer, ref ReportDataGrid);
+            }
+            else
+            {
+                MessageBox.Show(this, "Please enter valid url/keyword!", "Error", MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
             }
 
         }
@@ -65,6 +71,23 @@ namespace Seo_Audit_Tool
             catch (Exception exception)
             {
                 MessageBox.Show(this, exception.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void MenuGenerateReport_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO  same as analyzeButton_Click ^
+            var urlValidator = new UrlValidator();
+            if (urlValidator.IsValid(UrlTextBox.Text))
+            {
+                var analyzer = new Analyzer(UrlTextBox.Text, KeywordTextBox.Text);
+                analyzer.Analyze();
+                ReportsGenerator.GenerateReport(analyzer);
+            }
+            else
+            {
+                MessageBox.Show(this, "Please enter valid url/keyword!", "Error", MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
             }
         }
     }
