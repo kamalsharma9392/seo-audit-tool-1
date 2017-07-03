@@ -9,11 +9,11 @@ namespace Seo_Audit_Tool.Analyzers
 {
     public class Analyzer : IAnalyzer
     {
-        private string pageTitle;
-        private string pageUrl;
-        private string keyword;
-        private string pageSource;
-        private HtmlDocument document;
+        private string _pageTitle;
+        private string _pageUrl;
+        private string _keyword;
+        private string _pageSource;
+        private HtmlDocument _document;
 
         // TODO check for favicon (not very important but nice to have for branding)
         // TODO count broken links, make a list of broken links, count images without alt attribute, list images without alt attribute
@@ -21,10 +21,10 @@ namespace Seo_Audit_Tool.Analyzers
         // private int brokenLinksCount;
         // private List<string> imagesWithoutAlt;
         // private int imagesWithoutAltCount;
-        private int internalLinksCount;
-        private int externalLinksCount;
-        private int domainLength;
-        private int socialLinksCount;
+        public List<string> InternalLinks { get; private set; }
+        public List<string> ExternalLinks { get; private set; }
+        private int _domainLength;
+        public List<string> SocialLinks { get; private set; }
 
 
         public bool KeywordInTitle;
@@ -34,10 +34,11 @@ namespace Seo_Audit_Tool.Analyzers
 
         public Analyzer(string url, string keyword)
         {
-            this.pageUrl = url;
-            this.pageTitle = "";
-            this.document = new HtmlDocument();
-            this.keyword = keyword.ToLower();
+            this._pageUrl = url;
+            this._pageTitle = "";
+            this._document = new HtmlDocument();
+            this._keyword = keyword.ToLower();
+            this.SocialLinks = new List<string>();
 
             this.KeywordInTitle = false;
             this.KeywordInDescription = false;
@@ -48,8 +49,8 @@ namespace Seo_Audit_Tool.Analyzers
             {
                 WebClient webClient = new WebClient();
                 // TODO add webclient proxy option
-                pageSource = webClient.DownloadString(new Uri(url));
-                document.LoadHtml(pageSource);
+                _pageSource = webClient.DownloadString(new Uri(url));
+                _document.LoadHtml(_pageSource);
                 webClient.Dispose();
             }
             catch (Exception exception)
@@ -61,8 +62,8 @@ namespace Seo_Audit_Tool.Analyzers
         {
             try
             {
-                this.pageTitle = document.DocumentNode.SelectNodes("/html/head/title").First().InnerText;
-                return pageTitle.ToLower().Contains(keyword.ToLower());
+                this._pageTitle = _document.DocumentNode.SelectNodes("/html/head/title").First().InnerText;
+                return _pageTitle.ToLower().Contains(_keyword.ToLower());
             }
             catch (Exception exception)
             {
@@ -75,8 +76,8 @@ namespace Seo_Audit_Tool.Analyzers
         {
             try
             {
-                var metaDescriptionNode = document.DocumentNode.SelectSingleNode("/html/head/meta[@name=\"description\"]");
-                return metaDescriptionNode.GetAttributeValue("content", "").ToLower().Contains(keyword.ToLower());
+                var metaDescriptionNode = _document.DocumentNode.SelectSingleNode("/html/head/meta[@name=\"description\"]");
+                return metaDescriptionNode.GetAttributeValue("content", "").ToLower().Contains(_keyword.ToLower());
             }
             catch (Exception exception)
             {
@@ -91,9 +92,9 @@ namespace Seo_Audit_Tool.Analyzers
             try
             {
                 var headingsXPath = "//*[self::h1 or self::h2 or self::h3 or self::h4 or self::h5 or self::h6]";
-                foreach (var heading in document.DocumentNode.SelectNodes(headingsXPath))
+                foreach (var heading in _document.DocumentNode.SelectNodes(headingsXPath))
                 {
-                    if (heading.InnerText.ToLower().Contains(keyword.ToLower()))
+                    if (heading.InnerText.ToLower().Contains(_keyword.ToLower()))
                     {
                         if (heading.Name.Equals("h1"))
                         {
@@ -132,42 +133,22 @@ namespace Seo_Audit_Tool.Analyzers
 
         public bool HasKeywordInUrl()
         {
-            return pageUrl.ToLower().Contains(keyword.ToLower());
+            return _pageUrl.ToLower().Contains(_keyword.ToLower());
         }
 
-        public int CountInternalLinks()
+        public int GetInternalLinksCount()
         {
-            try
-            {
-                var allNodes = document.DocumentNode.SelectNodes("//a[@href]");
-                var internalLinkNodes = allNodes.Where(x => !x.GetAttributeValue("href", "").Contains("http"));
-                return internalLinkNodes.Count();
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception.StackTrace);
-                return 0;
-            }
+            return InternalLinks.Count;
         }
 
-        public int CountExternalLinks()
+        public int GetExternalLinksCount()
         {
-            try
-            {
-                var allNodes = document.DocumentNode.SelectNodes("//a[@href]");
-                var externalLinkNodes = allNodes.Where(x => x.GetAttributeValue("href", "").Contains("http"));
-                return externalLinkNodes.Count();
-            }
-            catch (Exception exception)
-            {
-                Console.WriteLine(exception.StackTrace);
-                return 0;
-            }
+            return ExternalLinks.Count;
         }
 
         public int MeasureDomainLength()
         {
-            var domain = pageUrl.Substring(0, pageUrl.IndexOf("/", 8));
+            var domain = _pageUrl.Substring(0, _pageUrl.IndexOf("/", 8));
             if (!domain.Contains("www."))
             {
                 domain = domain.Substring(domain.IndexOf("//") + 2);
@@ -187,40 +168,70 @@ namespace Seo_Audit_Tool.Analyzers
             this.KeywordInDescription = HasKeywordInDescription();
             this.KeywordInHeadings = HasKeywordInHeadings().Contains(true);
             this.KeywordInUrl = HasKeywordInUrl();
+            this._domainLength = MeasureDomainLength();
 
-            this.internalLinksCount = CountInternalLinks();
-            this.externalLinksCount = CountExternalLinks();
-            this.domainLength = MeasureDomainLength();
+            GetInternalLinks();
+            GetExternalLinks();
+            GetSocialLinks();
         }
 
         // TODO implement ComputeScore() -> make a grading system (1-100) to calculate how optimized the page is
-
-        private sealed class PageTitleRelationalComparer : Comparer<Analyzer>
-        {
-            public override int Compare(Analyzer x, Analyzer y)
-            {
-                if (ReferenceEquals(x, y)) return 0;
-                if (ReferenceEquals(null, y)) return 1;
-                if (ReferenceEquals(null, x)) return -1;
-                return string.Compare(x.pageTitle, y.pageTitle, StringComparison.Ordinal);
-            }
-        }
-
+        
         public string GetPageTitle()
         {
-            return this.pageTitle;
+            return this._pageTitle;
         }
 
         public string GetPageUrl()
         {
-            return this.pageUrl;
+            return this._pageUrl;
         }
 
         public string GetKeyword()
         {
-            return this.keyword;
+            return this._keyword;
         }
-        
+
+        public void GetInternalLinks()
+        {
+            try
+            {
+                var allNodes = _document.DocumentNode.SelectNodes("//a[@href]");
+                var internalLinkNodes = allNodes.Where(x => !x.GetAttributeValue("href", "").Contains("http"));
+                InternalLinks = internalLinkNodes.Select(x => x.GetAttributeValue("href", null)).ToList();
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.StackTrace);
+            }
+        }
+
+        public void GetExternalLinks()
+        {
+            try
+            {
+                var allNodes = _document.DocumentNode.SelectNodes("//a[@href]");
+                var externalLinkNodes = allNodes.Where(x => x.GetAttributeValue("href", "").Contains("http"));
+                ExternalLinks = externalLinkNodes.Select(x => x.GetAttributeValue("href", null)).ToList();
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.StackTrace);
+            }
+        }
+
+        public void GetSocialLinks()
+        {
+            foreach (var link in this.ExternalLinks)
+            {
+                if (link.Contains("facebook.com") || link.Contains("twitter.com") || link.Contains("instagram.com") ||
+                    link.Contains("pinterest.com"))
+                {
+                    this.SocialLinks.Add(link);   // keep only the unique ones?? -- it may have links to multiple pages on same social network
+                }
+            }
+        }
+        // TODO pie chart of internal/external links, also for live/dead links
     }
 
 }

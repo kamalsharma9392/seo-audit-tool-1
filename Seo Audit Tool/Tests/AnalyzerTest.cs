@@ -39,14 +39,14 @@ namespace Seo_Audit_Tool.Tests
         public void CountInternalLinksTest()
         {
             var analyzer = new Analyzer("https://potato.io/", "potato");
-            Assert.AreEqual(analyzer.CountInternalLinks(), 0);
+            Assert.AreEqual(analyzer.GetInternalLinksCount(), 0);
         }
 
         [Test]
         public void CountExternalLinksTest()
         {
             var analyzer = new Analyzer("https://potato.io/", "potato");
-            Assert.AreEqual(analyzer.CountExternalLinks(), 0);
+            Assert.AreEqual(analyzer.GetExternalLinksCount(), 0);
         }
 
         [Test]
