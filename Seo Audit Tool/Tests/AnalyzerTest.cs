@@ -9,21 +9,21 @@ namespace Seo_Audit_Tool.Tests
         [Test]
         public void HasKeywordInTitleTest()
         {
-            var analyzer = new Analyzer("http://www.cs.ubbcluj.ro/", "de");
+            var analyzer = new Analyzer("http://www.rainymood.com/", "relax");
             Assert.IsTrue(analyzer.HasKeywordInTitle());
         }
 
         [Test]
         public void HasKeywordInDescriptionTest()
         {
-            var analyzer = new Analyzer("http://www.cs.ubbcluj.ro/", "de");
+            var analyzer = new Analyzer("http://www.rainymood.com/", "relax");
             Assert.IsTrue(analyzer.HasKeywordInDescription());
         }
 
         [Test]
         public void HasKeywordInHeadingsTest()
         {
-            var analyzer = new Analyzer("http://www.cs.ubbcluj.ro/", "de");
+            var analyzer = new Analyzer("http://www.rainymood.com/", "rainy");
             analyzer.Analyze();
             Assert.True(analyzer.KeywordInHeadings);
         }
@@ -38,22 +38,24 @@ namespace Seo_Audit_Tool.Tests
         [Test]
         public void CountInternalLinksTest()
         {
-            var analyzer = new Analyzer("https://potato.io/", "potato");
-            Assert.AreEqual(analyzer.GetInternalLinksCount(), 0);
+            var analyzer = new Analyzer("http://www.rainymood.com/", "mood");
+            analyzer.Analyze();
+            Assert.AreEqual(analyzer.GetInternalLinksCount(), 5);
         }
 
         [Test]
         public void CountExternalLinksTest()
         {
-            var analyzer = new Analyzer("https://potato.io/", "potato");
-            Assert.AreEqual(analyzer.GetExternalLinksCount(), 0);
+            var analyzer = new Analyzer("https://www.google.com/", "google");
+            analyzer.Analyze();
+            Assert.AreEqual(analyzer.GetExternalLinksCount(), 22);
         }
 
         [Test]
         public void MeasureDomainLengthTest()
         {
-            var analyzer = new Analyzer("https://potato.io/", "potato");
-            Assert.AreEqual(analyzer.MeasureDomainLength(), 6);
+            var analyzer = new Analyzer("http://www.rainymood.com/", "rain");
+            Assert.AreEqual(analyzer.MeasureDomainLength(), 9);
         }
     }
 }
